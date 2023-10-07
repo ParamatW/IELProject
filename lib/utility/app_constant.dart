@@ -4,7 +4,7 @@ class AppConstan {
   //field
   static String appName = 'IEL project';
 
-  static Color bgcolor = Color.fromARGB(255, 166, 36, 246);
+  static Color bgcolor = Color.fromRGBO(1, 142, 154, 0.675);
 
   //method
 

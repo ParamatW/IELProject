@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:ielproject/utility/App_snackbar.dart';
 import 'package:ielproject/utility/app_constant.dart';
 import 'package:ielproject/utility/app_controller.dart';
+import 'package:ielproject/utility/app_service.dart';
 import 'package:ielproject/widgets/widget_button.dart';
 import 'package:ielproject/widgets/widget_form.dart';
 import 'package:ielproject/widgets/widget_icon_button.dart';
@@ -18,13 +20,16 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   AppController appController = Get.put(AppController());
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Container(decoration: AppConstan().Radiobox(),
+        child: Container(
+          decoration: AppConstan().Radiobox(),
           child: ListView(
             children: [
               Row(
@@ -41,9 +46,10 @@ class _AuthenState extends State<Authen> {
                         const SizedBox(
                           height: 16,
                         ),
-                        const WidgetForm(
+                        WidgetForm(
                           hint: 'username',
-                          suffixWidget: Icon(Icons.person),
+                          suffixWidget: const Icon(Icons.person),
+                          textEditingController: userController,
                         ),
                         const SizedBox(
                           height: 16,
@@ -52,13 +58,28 @@ class _AuthenState extends State<Authen> {
                         const SizedBox(
                           height: 8,
                         ),
-                        SizedBox( width: 250,
+                        SizedBox(
+                            width: 250,
                             child: WidgetButton(
-                          label: 'Login',
-                          pressFunc: () {},
-                          gfButtonShape: GFButtonShape.pills,
-                          gfButtonType: GFButtonType.outline2x,
-                        ))
+                              label: 'Login',
+                              pressFunc: () {
+                                if ((userController.text.isEmpty) ||
+                                    (passwordController.text.isEmpty)) {
+                                  //Have Spece
+                                  AppSnackBar(
+                                          title: 'Have Spece',
+                                          message: 'Pleses fill')
+                                      .errorSnackBar();
+                                } else {
+                                  //no spece
+                                  AppService().checkAuthen(
+                                      user: userController.text,
+                                      password: passwordController.text);
+                                }
+                              },
+                              gfButtonShape: GFButtonShape.pills,
+                              gfButtonType: GFButtonType.outline2x,
+                            ))
                       ],
                     ),
                   ),
@@ -74,6 +95,7 @@ class _AuthenState extends State<Authen> {
   Obx passwordWidget() {
     return Obx(() {
       return WidgetForm(
+        textEditingController: passwordController,
         hint: 'password',
         obscure: appController.redEye.value,
         suffixWidget: WidgetIconButton(
