@@ -31,15 +31,15 @@ Future<void> main() async {
 
     if (data == null) {
       firstPage = '/authen';
+      runApp(MyApp());
     } else {
       firstPage = '/mainHome';
-
-      
+      runApp(MyApp());
 
       await AppService()
           .findTokenModel(user: data['user'], password: data['password']);
 
-      runApp(MyApp());
+      
     }
   });
 }
@@ -51,8 +51,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // home: Authen(),
+      debugShowCheckedModeBanner: false,
       getPages: getPages,
       initialRoute: firstPage,
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Color.fromARGB(255, 245, 6, 85),
+            foregroundColor: Colors.white,
+            elevation: 0),
+        scaffoldBackgroundColor: Color.fromARGB(255, 245, 149, 181),
+      ),
     );
   }
 }

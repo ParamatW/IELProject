@@ -46,7 +46,7 @@ class AppService {
 
       Get.offAll(const MainHome());
 
-      print('tokenModel ----> ${tokenModel.toMap()}');
+      print('## tokenModel ----> ${tokenModel.toMap()}');
     } on Exception catch (e) {
       AppSnackBar(title: 'Login False', message: 'Please Try Afain')
           .errorSnackBar();
@@ -77,13 +77,32 @@ class AppService {
       TokenModel tokenModel = TokenModel.fromMap(response.data["token"]);
       appController.tokenmodels.add(tokenModel);
 
-
-
       print('tokenModel ----> ${tokenModel.toMap()}');
     } on Exception catch (e) {
       AppSnackBar(title: 'Login False', message: 'Please Try Afain')
           .errorSnackBar();
     }
     // print('statusCode ---> ${value.statusCode}');
+  }
+
+  Future<void> insertNewData({required Map<String, dynamic> map}) async {
+    String urlApi =
+        'https://dev-api-ismart.interexpress.co.th/Test/insert-data';
+
+    Dio dio = Dio();
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers['Authorization'] =
+        'Bearer ${appController.tokenmodels.last.accessToken}';
+
+    try {
+      var response = await dio.post(urlApi, data: map);
+      Get.back();
+      AppSnackBar(title: 'Add New Data Success', message: 'Thankyou')
+          .normalSnackBar();
+      
+    } on Exception catch (e) {
+      AppSnackBar(title: 'Cannot Add New Data', message: 'Please Try Again')
+          .errorSnackBar();
+    }
   }
 }

@@ -7,5 +7,7 @@ class AppController extends GetConnect {
   RxBool rememberMe = true.obs;
 
   RxList<TokenModel> tokenmodels = <TokenModel>[].obs;
+
+  RxInt indexBody = 0.obs;
   
 }

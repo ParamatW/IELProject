@@ -8,12 +8,14 @@ class WidgetForm extends StatelessWidget {
     this.suffixWidget,
     this.obscure,
     this.textEditingController,
+    this.labelWidget,
   }) : super(key: key);
 
   final String? hint;
   final Widget? suffixWidget;
   final bool? obscure;
   final TextEditingController? textEditingController;
+  final Widget? labelWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,9 @@ class WidgetForm extends StatelessWidget {
       controller: textEditingController,
       obscureText: obscure ?? false,
       decoration: InputDecoration(
+        label: labelWidget,
         filled: true,
+        fillColor: Colors.white,
         // border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
