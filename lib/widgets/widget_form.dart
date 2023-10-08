@@ -17,11 +17,19 @@ class WidgetForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(controller: textEditingController,
+    return TextFormField(
+      controller: textEditingController,
       obscureText: obscure ?? false,
       decoration: InputDecoration(
         filled: true,
-        border: InputBorder.none,
+        // border: InputBorder.none,
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: const Color.fromARGB(255, 238, 11, 87))),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: const Color.fromARGB(255, 238, 11, 87)),
+          borderRadius: BorderRadius.circular(30),
+        ),
         hintText: hint,
         suffixIcon: suffixWidget,
       ),

@@ -26,6 +26,7 @@ class WidgetButton extends StatelessWidget {
       text: label,
       shape: gfButtonShape ?? GFButtonShape.standard,
       type: gfButtonType ?? GFButtonType.solid,
+      color: const Color.fromARGB(255, 238, 11, 87)
     );
   }
 }

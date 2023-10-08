@@ -17,6 +17,6 @@ class AppSnackBar {
     Get.snackbar(title, message,
         backgroundColor: Colors.deepOrange,
         colorText: Colors.black,
-        snackPosition: SnackPosition.BOTTOM);
+        snackPosition: SnackPosition.TOP);
   }
 }

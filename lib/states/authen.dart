@@ -29,7 +29,7 @@ class _AuthenState extends State<Authen> {
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Container(
-          decoration: AppConstan().Radiobox(),
+          decoration: AppConstan().linearbox(),
           child: ListView(
             children: [
               Row(
@@ -58,28 +58,17 @@ class _AuthenState extends State<Authen> {
                         const SizedBox(
                           height: 8,
                         ),
-                        SizedBox(
-                            width: 250,
-                            child: WidgetButton(
-                              label: 'Login',
-                              pressFunc: () {
-                                if ((userController.text.isEmpty) ||
-                                    (passwordController.text.isEmpty)) {
-                                  //Have Spece
-                                  AppSnackBar(
-                                          title: 'Have Spece',
-                                          message: 'Pleses fill')
-                                      .errorSnackBar();
-                                } else {
-                                  //no spece
-                                  AppService().checkAuthen(
-                                      user: userController.text,
-                                      password: passwordController.text);
-                                }
-                              },
-                              gfButtonShape: GFButtonShape.pills,
-                              gfButtonType: GFButtonType.outline2x,
-                            ))
+                        Obx(() {
+                          return CheckboxListTile(
+                            value: appController.rememberMe.value,
+                            onChanged: (Value) {
+                              appController.rememberMe.value = Value!;
+                            },
+                            title: WidgetText(data: 'Remember Me'),
+                            controlAffinity: ListTileControlAffinity.leading,
+                          );
+                        }),
+                        LoginButton()
                       ],
                     ),
                   ),
@@ -90,6 +79,28 @@ class _AuthenState extends State<Authen> {
         ),
       ),
     );
+  }
+
+  SizedBox LoginButton() {
+    return SizedBox(
+        width: 250,
+        child: WidgetButton(
+          label: 'Login',
+          pressFunc: () {
+            if ((userController.text.isEmpty) ||
+                (passwordController.text.isEmpty)) {
+              //Have Spece
+              AppSnackBar(title: 'Have Spece', message: 'Pleses fill')
+                  .errorSnackBar();
+            } else {
+              //no spece
+              AppService().checkAuthen(
+                  user: userController.text, password: passwordController.text);
+            }
+          },
+          gfButtonShape: GFButtonShape.pills,
+          gfButtonType: GFButtonType.outline2x,
+        ));
   }
 
   Obx passwordWidget() {
