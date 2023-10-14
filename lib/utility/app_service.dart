@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ielproject/models/data_model.dart';
@@ -8,6 +10,9 @@ import 'package:ielproject/models/token_model.dart';
 import 'package:ielproject/states/main_home.dart';
 import 'package:ielproject/utility/App_snackbar.dart';
 import 'package:ielproject/utility/app_controller.dart';
+import 'package:ielproject/utility/app_dialog.dart';
+import 'package:ielproject/widgets/widget_button.dart';
+import 'package:ielproject/widgets/widget_text.dart';
 
 class AppService {
   AppController appController = Get.put(AppController());
@@ -113,7 +118,6 @@ class AppService {
   }
 
   Future<void> processReadAllData() async {
-
     appController.load.value = true;
 
     String urlApi = 'https://dev-api-ismart.interexpress.co.th/Test/list-all';
@@ -191,11 +195,29 @@ class AppService {
         .delete(urlApi, data: map)
         .then((value) => AppService().processReadAllData())
         .catchError((onError) {
-          print('on error $onError');
-        });
+      print('on error $onError');
+    });
     //   Get.back();
     //   AppSnackBar(title: 'delete success', message: 'delete Data')
     //       .normalSnackBar();
     // }).catchError((onError) {});
+  }
+
+  Future<void> processFindPosition() async {
+    bool locationService = await Geolocator.isLocationServiceEnabled();
+
+    if (locationService) {
+      // Open Location
+    } else {
+      // Off Location
+      AppDialog().normalDialog(
+          title: 'Off Location',
+          contentWidget: WidgetText(data: 'Please Open Location'),
+          secondActionWidget:
+              WidgetButton(label: 'Open Location', pressFunc: () async {
+                await Geolocator.openLocationSettings();
+                exit(0);
+              }));
+    }
   }
 }

@@ -11,6 +11,7 @@ class AppDialog {
     String? pahtImage,
     Widget? contentWidget,
     Widget? actionWidget,
+    Widget? secondActionWidget,
     // Widget? secondActionWidget,
   }) {
     Get.dialog(
@@ -24,7 +25,7 @@ class AppDialog {
         content: contentWidget,
         actions: [
           actionWidget ?? const SizedBox(),
-          actionWidget == null
+          secondActionWidget ?? (actionWidget == null
               ? WidgetButton(
                   gfButtonType: GFButtonType.transparent,
                   label: 'OK',
@@ -38,7 +39,7 @@ class AppDialog {
                   pressFunc: () {
                     print('click cancel');
                     Get.back();
-                  }),
+                  })),
         ],
       ),
       barrierDismissible: false,
