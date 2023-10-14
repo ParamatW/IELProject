@@ -6,7 +6,7 @@ import 'package:ielproject/widgets/widget_image_asset.dart';
 import 'package:ielproject/widgets/widget_text.dart';
 
 class AppDialog {
-  void normalDialpg({
+  void normalDialog({
     required String title,
     String? pahtImage,
     Widget? contentWidget,
@@ -15,6 +15,7 @@ class AppDialog {
   }) {
     Get.dialog(
       AlertDialog(
+        scrollable: true,
         icon: WidgetImageAsset(
           size: 150,
           path: pahtImage,
@@ -33,7 +34,6 @@ class AppDialog {
                 )
               : WidgetButton(
                   gfButtonType: GFButtonType.outline,
-                  
                   label: 'Cancel',
                   pressFunc: () {
                     print('click cancel');

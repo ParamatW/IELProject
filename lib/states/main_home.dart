@@ -65,7 +65,7 @@ class _MainHomeState extends State<MainHome> {
         WidgetIconButton(
             iconData: Icons.exit_to_app,
             pressFunc: () {
-              AppDialog().normalDialpg(
+              AppDialog().normalDialog(
                   title: 'SignOut ?',
                   pahtImage: 'images/stars-pana.png',
                   contentWidget: const Row(
