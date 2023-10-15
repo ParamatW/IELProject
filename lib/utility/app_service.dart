@@ -205,19 +205,53 @@ class AppService {
 
   Future<void> processFindPosition() async {
     bool locationService = await Geolocator.isLocationServiceEnabled();
+    LocationPermission locationPermission;
 
     if (locationService) {
       // Open Location
+      locationPermission = await Geolocator.checkPermission();
+      if (locationPermission == LocationPermission.deniedForever) {
+        // ไม่อนุญาติ
+        dialogpenPermision();
+      } else {
+        //Away, one, Denied
+        if (locationPermission == LocationPermission.denied) {
+          locationPermission = await Geolocator.requestPermission();
+
+          if ((locationPermission != LocationPermission.always) &&
+              (locationPermission != LocationPermission.whileInUse)) {
+            dialogpenPermision();
+          } else {
+            Position position = await Geolocator.getCurrentPosition();
+            appController.position.add(position);
+          }
+        } else {
+          Position position = await Geolocator.getCurrentPosition();
+          appController.position.add(position);
+        }
+      }
     } else {
       // Off Location
       AppDialog().normalDialog(
           title: 'Off Location',
           contentWidget: WidgetText(data: 'Please Open Location'),
-          secondActionWidget:
-              WidgetButton(label: 'Open Location', pressFunc: () async {
+          secondActionWidget: WidgetButton(
+              label: 'Open Location',
+              pressFunc: () async {
                 await Geolocator.openLocationSettings();
                 exit(0);
               }));
     }
+  }
+
+  Future<void> dialogpenPermision() async {
+    AppDialog().normalDialog(
+        title: 'Open Permision',
+        secondActionWidget: WidgetButton(
+            label: 'Open Permision',
+            pressFunc: () {
+              Geolocator.openAppSettings();
+              exit(0);
+            }));
   }
 }
